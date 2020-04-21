@@ -27,20 +27,34 @@ class ViewController: UIViewController {
         // スクロールビューを作成する。
         scrollView = UIScrollView()
         view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         // ログインビューを作成する。
         loginView = LoginView()
         loginView.delegate = self
         scrollView.addSubview(loginView)
+        loginView.translatesAutoresizingMaskIntoConstraints = false
         
     }
     
     override func viewDidLayoutSubviews() {
         
-        scrollView.frame = self.view.frame
-        scrollView.contentSize = self.view.frame.size
+        scrollView.contentSize.width = self.view.frame.size.width
+        self.view.addConstraints([
+            Layout.constraint(item: scrollView, .top, to: self.view, .top),
+            Layout.constraint(item: scrollView, .bottom, to: self.view, .bottom),
+            Layout.constraint(item: scrollView, .leading, to: self.view, .leading),
+            Layout.constraint(item: scrollView, .trailing, to: self.view, .trailing)
+        ])
         
-        loginView.frame = self.view.frame
+        scrollView.addConstraints([
+            Layout.constraint(item: loginView, .top, to: scrollView, .top),
+            Layout.constraint(item: loginView, .bottom, to: scrollView, .bottom),
+            Layout.constraint(item: loginView, .leading, to: scrollView, .leading),
+            Layout.constraint(item: loginView, .trailing, to: scrollView, .trailing),
+            Layout.constraint(item: loginView, .width, to: scrollView, .width),
+            Layout.constraint(item: loginView, .height, to: scrollView, .height)
+        ])
         
     }
     
@@ -54,6 +68,10 @@ extension ViewController: LoginViewDelegate {
     
     func loginView(signupButtonDidTap view: LoginView) {
         print("LoginViewDelegate.signupButtonDidTap")
+    }
+    
+    func loginView(changeBottomUIMaxY y: CGFloat) {
+        scrollView.contentSize.height = y
     }
     
     

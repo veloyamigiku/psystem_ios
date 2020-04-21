@@ -10,6 +10,7 @@ import UIKit
 protocol LoginViewDelegate: class {
     func loginView(loginButtonDidTap view: LoginView)
     func loginView(signupButtonDidTap view: LoginView)
+    func loginView(changeBottomUIMaxY y: CGFloat)
 }
 
 class LoginView: UIView {
@@ -139,6 +140,9 @@ class LoginView: UIView {
             Layout.constraint(item: signupButton, .trailing, to: self, .trailing, constant: -20),
             Layout.constraint(item: signupButton, .width, to: nil, .width, constant: 120)
         ])
+        
+        delegate.loginView(changeBottomUIMaxY: signupButton.frame.size.height + signupButton.frame.origin.y)
+        
     }
     
     @objc func tapSignupButton(_ sender: UIButton) {
